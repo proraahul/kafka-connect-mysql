@@ -13,37 +13,38 @@ paste it || kafka_2.13-3.9.0/config || here 3 controller and 3 broker file from 
 | -- https://github.com/learnwithme-here/Learn-Kafka/blob/main/Kraft_Controller_Broker_config.zip | 
 
 ## Genereate cluster UUID ##
-KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+| KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)" |
 
 now one by one
 ## Format Log Directories ##
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller1.properties
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller2.properties
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller3.properties
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker1.properties
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker2.properties
-bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker3.properties
+
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller1.properties |
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller2.properties | 
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/controller3.properties |
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker1.properties |
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker2.properties |
+| bin/kafka-storage.sh format  -t $KAFKA_CLUSTER_ID -c config/broker3.properties |
 
 ## Start Controllers and brokers ##
 
-nohup bin/kafka-server-start.sh config/controller1.properties > controller1.nohup.log &
-nohup bin/kafka-server-start.sh config/controller2.properties > controller2.nohup.log &
-nohup bin/kafka-server-start.sh config/controller3.properties > controller3.nohup.log &
+| nohup bin/kafka-server-start.sh config/controller1.properties > controller1.nohup.log & |
+| nohup bin/kafka-server-start.sh config/controller2.properties > controller2.nohup.log & |
+| nohup bin/kafka-server-start.sh config/controller3.properties > controller3.nohup.log & |
 
-nohup bin/kafka-server-start.sh config/broker1.properties > broker1.nohup.log &
-nohup bin/kafka-server-start.sh config/broker2.properties > broker2.nohup.log &
-nohup bin/kafka-server-start.sh config/broker3.properties > broker3.nohup.log &
+| nohup bin/kafka-server-start.sh config/broker1.properties > broker1.nohup.log & |
+| nohup bin/kafka-server-start.sh config/broker2.properties > broker2.nohup.log & |
+| nohup bin/kafka-server-start.sh config/broker3.properties > broker3.nohup.log & |
 
 
 ## Producer ##
-bin/kafka-console-producer.sh --topic test1 --bootstrap-server localhost:9092
+| bin/kafka-console-producer.sh --topic test1 --bootstrap-server localhost:9092 |
 
 ## Consumer ##
-bin/kafka-console-consumer.sh --topic test1 --from-beginning --bootstrap-server localhost:9092
+| bin/kafka-console-consumer.sh --topic test1 --from-beginning --bootstrap-server localhost:9092 |
 
 
 ## download kafka connect jdbc connector self hosted 
-| https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc
+| https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc |
 
 STEP : 
     - go to kafka inside kafka_2.13-.3.9.0/libs
@@ -78,7 +79,7 @@ for setup kafka-ui
 open vi application.yaml file
 
 ## set this 
-
+|
 kafka:
   clusters:
     - name: local
@@ -86,7 +87,7 @@ kafka:
       kafkaConnect:
                   - name: first
                     address: http://localhost:8083
-
+|
 
 ## now run 
 
@@ -98,7 +99,7 @@ i.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.2.jar
 ##in kafka ui set jdbc source and sink
 
 ###source config 
-
+|
 {
 	"connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
 	"timestamp.column.name": "<enter timestamp column for incremental capture eg; column last_updated>", //"update_at"
@@ -122,10 +123,10 @@ i.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.2.jar
   "connection.password":"<Enter_Password>",
 	"transforms.ValueToKey.type": "org.apache.kafka.connect.transforms.ValueToKey"
 }
-
+|
 
 ###sink config
-
+|
 {
 	"connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
 	"table.name.format": "<Enter_target_table_name>", //"sink_employees"
@@ -144,7 +145,7 @@ i.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.2.jar
 	"pk.mode": "record_key", 
 	"pk.fields": "<Enter primary key columns eg; column id" //"id"
 }
-
+|
 
 
  
