@@ -1,6 +1,9 @@
 # kafka-connect-mysql
 
 
+##Kafka set up
+https://github.com/Sunchit/Kafka/blob/main/kafka-publisher/src/main/resources/application.properties
+
 ## What is kafka connect
 - kafka connect is a framework that helps move data between external systems and apache kafka 
 It acts like an automated data pipeline 
